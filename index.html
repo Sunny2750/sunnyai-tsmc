@@ -3,54 +3,68 @@ function sendPDFIfPaid(e) {
   var row = e.range.getRow();
   var col = e.range.getColumn();
 
-  // 👉 只監控 H（是否已收款）或 K（補寄要求）
+  // 只在指定工作表運作
+  if (sheet.getName() !== "Form_Responses") return;
+
+  // 只監控 H欄「是否已收款」或 K欄「補寄要求」
   if (row === 1) return;
   if (col !== 8 && col !== 11) return;
 
-  var paid = sheet.getRange(row, 8).getValue();     // H 是否已收款
-  var sent = sheet.getRange(row, 9).getValue();     // I 是否已寄送
-  var email = sheet.getRange(row, 3).getValue();    // C Email
-  var name = sheet.getRange(row, 2).getValue();     // B 姓名
-  var resend = sheet.getRange(row, 11).getValue();  // K 補寄要求
+  var paid = String(sheet.getRange(row, 8).getValue()).trim();      // H 是否已收款
+  var sent = String(sheet.getRange(row, 9).getValue()).trim();      // I 是否已寄送
+  var email = String(sheet.getRange(row, 3).getValue()).trim();     // C Email
+  var name = String(sheet.getRange(row, 2).getValue()).trim();      // B 姓名
+  var resend = String(sheet.getRange(row, 11).getValue()).trim();   // K 補寄要求
+  var orderId = String(sheet.getRange(row, 10).getValue()).trim();  // J 訂單編號
 
   if (!email) return;
 
   var shouldSend = false;
+  var isResend = false;
 
-  // ✅ 正常寄送
+  // 正常寄送：已收款且尚未寄送
   if (paid === "YES" && sent !== "YES") {
     shouldSend = true;
   }
 
-  // ✅ 補寄（強制）
+  // 補寄：K欄=YES 時強制寄送
   if (resend === "YES") {
     shouldSend = true;
+    isResend = true;
   }
 
   if (!shouldSend) return;
 
+  // 沒有訂單編號就自動建立
+  if (!orderId) {
+    orderId = "TSMC-" + Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "yyyyMMdd-HHmmss") + "-" + row;
+    sheet.getRange(row, 10).setValue(orderId);
+  }
+
   var files = DriveApp.getFilesByName("TSMC_Q1_2026_Research_Report.pdf");
   if (!files.hasNext()) {
-    throw new Error("找不到 PDF 檔案");
+    throw new Error("找不到 PDF 檔案：TSMC_Q1_2026_Research_Report.pdf");
   }
 
   var pdfFile = files.next().getBlob();
 
   MailApp.sendEmail({
     to: email,
-    subject: "TSMC 投資決策報告（完整版）",
+    subject: isResend ? "TSMC 投資決策報告（補寄）" : "TSMC 投資決策報告（完整版）",
     htmlBody:
       "您好" + (name ? "，" + name : "") + "<br><br>" +
-      "您的報告已準備完成，請查看附件。<br><br>" +
+      (isResend ? "依您的需求，這是補寄的報告附件。<br><br>" : "感謝您的購買，附件為您訂購的 <b>TSMC 投資決策報告（完整版）</b>。<br><br>") +
+      "訂單編號：" + orderId + "<br><br>" +
+      "若有任何問題，歡迎回信。<br><br>" +
       "— Sunny AI 價值研究室",
     attachments: [pdfFile]
   });
 
-  // ✅ 標記寄送完成
+  // 標記已寄送
   sheet.getRange(row, 9).setValue("YES");
 
-  // ✅ 清空補寄要求（避免無限寄）
-  if (resend === "YES") {
+  // 如果是補寄，寄完自動清空補寄要求
+  if (isResend) {
     sheet.getRange(row, 11).setValue("");
   }
 }
