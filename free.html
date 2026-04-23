@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>免費領取｜AI 產業價值鏈全景圖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#000000;
+      --panel:#0b0b0b;
+      --panel2:#111111;
+      --gold:#EAB308;
+      --gold2:#FCD34D;
+      --blue:#3B82F6;
+      --text:#F5F5F5;
+      --muted:#B8B8B8;
+      --line:rgba(234,179,8,.22);
+      --line2:rgba(255,255,255,.07);
+      --ok:#22c55e;
+      --danger:#ef4444;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:"Noto Sans TC",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top, rgba(234,179,8,.12), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(59,130,246,.08), transparent 20%),
+        linear-gradient(180deg,#000 0%, #050505 100%);
+      line-height:1.7;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1200px;
+      margin:0 auto;
+      padding:24px;
+    }
+
+    .hero{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px 0 40px;
+    }
+
+    .card{
+      width:100%;
+      max-width:1080px;
+      display:grid;
+      grid-template-columns:1.08fr .92fr;
+      border:1px solid var(--line);
+      border-radius:30px;
+      overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));
+      box-shadow:0 24px 90px rgba(0,0,0,.56);
+      backdrop-filter:blur(8px);
+    }
+
+    .left{
+      padding:54px 40px;
+      background:
+        radial-gradient(circle at top left, rgba(234,179,8,.08), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+    }
+
+    .right{
+      padding:54px 34px;
+      border-left:1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(234,179,8,.07), rgba(234,179,8,.03)),
+        #0c0c0c;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--gold),var(--gold2));
+      color:#111;
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:.6px;
+      margin-bottom:18px;
+    }
+
+    h1{
+      margin:0 0 16px;
+      font-size:46px;
+      line-height:1.18;
+      font-weight:900;
+      letter-spacing:-1px;
+    }
+
+    .gold{ color:var(--gold2); }
+
+    .sub{
+      color:var(--muted);
+      font-size:18px;
+      margin:0 0 28px;
+    }
+
+    .hook-box{
+      padding:20px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:rgba(234,179,8,.06);
+      margin-bottom:24px;
+    }
+
+    .hook-box strong{
+      display:block;
+      font-size:18px;
+      margin-bottom:8px;
+      color:#fff;
+    }
+
+    .hook-box p{
+      margin:0;
+      color:#ebebeb;
+      font-size:15px;
+    }
+
+    .list{
+      display:grid;
+      gap:14px;
+      margin-top:20px;
+    }
+
+    .item{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      padding:16px;
+      border-radius:18px;
+      border:1px solid var(--line2);
+      background:rgba(255,255,255,.02);
+    }
+
+    .icon{
+      width:28px;
+      height:28px;
+      flex:0 0 28px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(180deg,var(--gold2),var(--gold));
+      color:#111;
+      font-weight:900;
+      margin-top:2px;
+      font-size:14px;
+    }
+
+    .item strong{
+      display:block;
+      margin-bottom:4px;
+      font-size:16px;
+      color:#fff;
+    }
+
+    .item span{
+      font-size:15px;
+      color:#d7d7d7;
+    }
+
+    .quote{
+      margin-top:24px;
+      padding:14px 0 14px 16px;
+      border-left:4px solid var(--gold);
+      color:#ececec;
+      font-size:15px;
+    }
+
+    .form-title{
+      margin:0 0 10px;
+      font-size:32px;
+      line-height:1.3;
+      font-weight:900;
+    }
+
+    .form-sub{
+      color:#d3d3d3;
+      font-size:15px;
+      margin:0 0 24px;
+    }
+
+    .form-box{
+      max-width:420px;
+      margin:0 auto;
+    }
+
+    .label{
+      display:block;
+      margin-bottom:8px;
+      font-size:14px;
+      font-weight:700;
+      color:#f2f2f2;
+    }
+
+    .input{
+      width:100%;
+      padding:16px 18px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:#101010;
+      color:#fff;
+      font-size:16px;
+      outline:none;
+      transition:.2s ease;
+    }
+
+    .input:focus{
+      border-color:rgba(234,179,8,.72);
+      box-shadow:0 0 0 4px rgba(234,179,8,.12);
+    }
+
+    .btn{
+      width:100%;
+      border:none;
+      margin-top:16px;
+      padding:16px 20px;
+      border-radius:16px;
+      font-size:17px;
+      font-weight:900;
+      cursor:pointer;
+      color:#111;
+      background:linear-gradient(90deg,var(--gold),var(--gold2));
+      box-shadow:0 10px 28px rgba(234,179,8,.18);
+      transition:transform .15s ease, opacity .15s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn:disabled{
+      opacity:.7;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    .trust{
+      margin-top:14px;
+      color:#bdbdbd;
+      font-size:13px;
+      line-height:1.75;
+    }
+
+    .status{
+      min-height:24px;
+      margin-top:14px;
+      font-size:14px;
+      font-weight:800;
+    }
+
+    .status.ok{ color:var(--ok); }
+    .status.error{ color:var(--danger); }
+
+    .mini-note{
+      margin-top:18px;
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(255,255,255,.02);
+      color:#d5d5d5;
+      font-size:14px;
+    }
+
+    .footer-line{
+      margin-top:16px;
+      color:#999;
+      font-size:12px;
+      text-align:center;
+    }
+
+    @media (max-width: 900px){
+      .card{
+        grid-template-columns:1fr;
+      }
+      .right{
+        border-left:none;
+        border-top:1px solid var(--line);
+      }
+      .left,.right{
+        padding:34px 20px;
+      }
+      h1{
+        font-size:34px;
+      }
+      .sub{
+        font-size:16px;
+      }
+      .form-title{
+        font-size:26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="card">
+        <div class="left">
+          <div class="badge">FREE DOWNLOAD</div>
+
+          <h1>
+            免費領取<br>
+            <span class="gold">AI 產業價值鏈全景圖</span>
+          </h1>
+
+          <p class="sub">
+            大多數人不是不知道 AI 很重要，<br>
+            而是不知道：<strong>錢，現在到底往哪裡流。</strong>
+          </p>
+
+          <div class="hook-box">
+            <strong>知道 AI 是趨勢，還不夠</strong>
+            <p>
+              真正會拉開投資結果差距的，是你有沒有站在
+              <strong>最先造血的位置</strong>。
+            </p>
+          </div>
+
+          <div class="list">
+            <div class="item">
+              <div class="icon">1</div>
+              <div>
+                <strong>快速看懂 AI 完整結構</strong>
+                <span>從硬體、算力、平台到應用，一次看清楚誰在賺真正的錢。</span>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="icon">2</div>
+              <div>
+                <strong>辨識哪些公司在真正造血</strong>
+                <span>不是只看成長故事，而是看誰有機會把成長變成現金流。</span>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="icon">3</div>
+              <div>
+                <strong>建立 AI 投資的第一張地圖</strong>
+                <span>先看清資金流向，再決定研究方向，不再只靠感覺做判斷。</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="quote">
+            這不是一般資訊整理。<br>
+            這是一張讓你先搞清楚「市場的錢正在往哪裡流」的決策地圖。
+          </div>
+        </div>
+
+        <div class="right">
+          <div class="form-box">
+            <h2 class="form-title">
+              輸入 Email<br>
+              立即免費領取
+            </h2>
+
+            <p class="form-sub">
+              我會把 <strong>《AI產業價值鏈全景圖-美股核心版(2026)》</strong><br>
+              寄到你的信箱。
+            </p>
+
+            <form id="leadForm">
+              <label class="label" for="email">Email</label>
+              <input
+                class="input"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="請輸入你的 Email"
+                required
+              />
+
+              <input type="hidden" name="source" value="GitHub Free Page">
+              <input type="hidden" name="tag" value="AI產業價值鏈全景圖">
+              <input type="hidden" name="note" value="free.html 免費領取頁">
+
+              <button class="btn" type="submit" id="submitBtn">立即免費領取</button>
+
+              <div id="status" class="status"></div>
+            </form>
+
+            <div class="mini-note">
+              送出後，你會收到免費 PDF，並返回進階內容頁。  
+              適合想建立 AI 投資框架的人。
+            </div>
+
+            <div class="trust">
+              我不會寄垃圾信。<br>
+              你的 Email 只會用於寄送本次領取內容與後續相關資訊。
+            </div>
+
+            <div class="footer-line">
+              Sunny AI｜價值研究室
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyHXQFGyNff7BswD6O6jG3k1mX2YNv66ATWSeSbFFUDFyG36QfPzU_js0id0cSJRe-x/exec";
+
+    const form = document.getElementById("leadForm");
+    const statusEl = document.getElementById("status");
+    const submitBtn = document.getElementById("submitBtn");
+
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+
+      if (!email) {
+        statusEl.textContent = "請先輸入 Email";
+        statusEl.className = "status error";
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "送出中...";
+      statusEl.textContent = "";
+      statusEl.className = "status";
+
+      const formData = new URLSearchParams(new FormData(form));
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: formData,
+          mode: "no-cors"
+        });
+
+        statusEl.textContent = "送出成功，正在跳轉...";
+        statusEl.className = "status ok";
+
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1200);
+
+      } catch (error) {
+        statusEl.textContent = "送出失敗，請稍後再試";
+        statusEl.className = "status error";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "立即免費領取";
+      }
+    });
+  </script>
+</body>
+</html>
